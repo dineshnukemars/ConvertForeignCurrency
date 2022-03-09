@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/app_nav"
+    app:startDestination="@id/selectBaseCurrencyFragment">
+
+    <fragment
+        android:id="@+id/selectBaseCurrencyFragment"
+        android:name="com.sky.conversion.ui.symbols.SymbolsFragment"
+        android:label="SelectBaseCurrencyFragment">
+        <action
+            android:id="@+id/action_selectBaseCurrencyFragment_to_convertCurrencyFragment2"
+            app:destination="@id/convertCurrencyFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/convertCurrencyFragment"
+        android:name="com.sky.conversion.ui.conversion.ConversionFragment"
+        android:label="ConvertCurrencyFragment">
+
+        <argument
+            android:name="baseCurrencySymbol"
+            app:argType="string"
+            android:defaultValue="EUR" />
+
+    </fragment>
+
+
+</navigation>
