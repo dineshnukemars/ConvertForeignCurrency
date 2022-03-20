@@ -1,4 +1,4 @@
-package com.sky.conversion.ui.theme
+package com.sky.conversion.ui.base.theme
 
 import androidx.compose.ui.graphics.Color
 

@@ -1,4 +1,4 @@
-package com.sky.conversion.ui.components
+package com.sky.conversion.ui.base.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
@@ -12,12 +12,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
-import com.sky.conversion.models.RatesSuccess
-import com.sky.conversion.models.RatesError
-import com.sky.conversion.models.SymbolsSuccess
-import com.sky.conversion.models.SymbolsError
-import com.sky.conversion.ui.theme.MyApplicationTheme
-import com.sky.conversion.utils.LIST_VIEW
+import com.sky.conversion.data.models.RatesSuccess
+import com.sky.conversion.data.models.RatesError
+import com.sky.conversion.data.models.SymbolsSuccess
+import com.sky.conversion.data.models.SymbolsError
+import com.sky.conversion.ui.base.theme.MyApplicationTheme
+import com.sky.conversion.core.LIST_VIEW
 import java.util.*
 
 /**

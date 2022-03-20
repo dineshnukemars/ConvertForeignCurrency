@@ -1,12 +1,11 @@
-package com.sky.conversion.datasources.remote
+package com.sky.conversion.data.source.remote
 
 import com.google.gson.Gson
 import com.google.gson.JsonObject
-import com.sky.conversion.models.*
-import com.sky.conversion.repos.IRemoteDataSource
-import com.sky.conversion.utils.ACCESS_KEY
-import com.sky.conversion.utils.BASE_URL
-import com.sky.conversion.utils.appLog
+import com.sky.conversion.core.ACCESS_KEY
+import com.sky.conversion.core.BASE_URL
+import com.sky.conversion.core.utils.appLog
+import com.sky.conversion.data.models.*
 import kotlinx.coroutines.suspendCancellableCoroutine
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -20,7 +19,7 @@ import kotlin.coroutines.resume
 /**
  * creates retrofit instance and suspend functions for api calls
  */
-class RemoteService : IRemoteDataSource {
+class RemoteService {
     private val retrofit: Retrofit
     private val service: CurrencyService
 
@@ -47,7 +46,7 @@ class RemoteService : IRemoteDataSource {
         return chain.proceed(originalRequest.newBuilder().url(url).build())
     }
 
-    override suspend fun getSymbolsResponse(): SymbolsResponse {
+    suspend fun getSymbolsResponse(): SymbolsResponse {
         return suspendCancellableCoroutine { continuation ->
             val call = service.getSymbolsJson()
             call.enqueue(object : Callback<JsonObject> {
@@ -95,7 +94,7 @@ class RemoteService : IRemoteDataSource {
     }
 
 
-    override suspend fun getLatestRates(base: String): RatesResponse {
+    suspend fun getLatestRates(base: String): RatesResponse {
         return suspendCancellableCoroutine { continuation ->
             val call = service.getLatestRatesJson(base)
             call.enqueue(object : Callback<JsonObject> {

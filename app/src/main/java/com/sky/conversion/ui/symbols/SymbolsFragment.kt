@@ -17,27 +17,35 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.sky.conversion.R
-import com.sky.conversion.datasources.local.PreferenceSource
-import com.sky.conversion.datasources.remote.RemoteService
-import com.sky.conversion.models.SymbolsSuccess
-import com.sky.conversion.models.SymbolsError
-import com.sky.conversion.models.SymbolsIdleState
-import com.sky.conversion.repos.SymbolsRepo
-import com.sky.conversion.ui.components.ContentView
-import com.sky.conversion.ui.components.SymbolErrorAlertDialog
-import com.sky.conversion.ui.components.SymbolList
-import com.sky.conversion.utils.BASE_CURRENCY_SYMBOL
-import com.sky.conversion.utils.createVmFactory
-import com.sky.conversion.utils.getCurrencyApp
-import com.sky.conversion.utils.getPreferences
+import com.sky.conversion.data.source.local.PreferenceSource
+import com.sky.conversion.data.source.remote.RemoteService
+import com.sky.conversion.data.models.SymbolsSuccess
+import com.sky.conversion.data.models.SymbolsError
+import com.sky.conversion.data.models.SymbolsIdleState
+import com.sky.conversion.ui.base.components.ContentView
+import com.sky.conversion.ui.base.components.SymbolErrorAlertDialog
+import com.sky.conversion.ui.base.components.SymbolList
+import com.sky.conversion.core.BASE_CURRENCY_SYMBOL
+import com.sky.conversion.core.utils.createVmFactory
+import com.sky.conversion.core.utils.getCurrencyApp
+import com.sky.conversion.core.utils.getPreferences
+import com.sky.conversion.usecase.CurrencyUseCase
 
 class SymbolsFragment : Fragment() {
 
     private val viewModel: SymbolsViewModel by viewModels {
         val currencyApp = context.getCurrencyApp() //throws exception
         val pref = context.getPreferences() //throws exception
-        val repo = SymbolsRepo(PreferenceSource(pref), RemoteService(), currencyApp.idlingRes)
-        createVmFactory(SymbolsViewModel(repo))
+
+        createVmFactory(
+            SymbolsViewModel(
+                CurrencyUseCase(
+                    pref = PreferenceSource(pref),
+                    remoteService = RemoteService(),
+                    idlingRes = currencyApp.idlingRes
+                )
+            )
+        )
     }
 
     override fun onCreateView(

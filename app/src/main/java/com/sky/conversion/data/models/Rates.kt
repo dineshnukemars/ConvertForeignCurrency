@@ -1,4 +1,4 @@
-package com.sky.conversion.models
+package com.sky.conversion.data.models
 
 
 sealed class RatesResponse

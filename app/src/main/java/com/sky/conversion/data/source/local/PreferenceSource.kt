@@ -1,32 +1,31 @@
-package com.sky.conversion.datasources.local
+package com.sky.conversion.data.source.local
 
 import android.content.SharedPreferences
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.sky.conversion.models.*
-import com.sky.conversion.repos.ILocalDataSource
-import com.sky.conversion.utils.CACHE_TIME_STAMP
-import com.sky.conversion.utils.RATES_LIST_JSON
-import com.sky.conversion.utils.SYMBOL_LIST_JSON
-import com.sky.conversion.utils.appLog
+import com.sky.conversion.core.CACHE_TIME_STAMP
+import com.sky.conversion.core.RATES_LIST_JSON
+import com.sky.conversion.core.SYMBOL_LIST_JSON
+import com.sky.conversion.core.utils.appLog
+import com.sky.conversion.data.models.*
 
 /**
  * creates local cache using Shared Preference
  * implements functions for save and retrieve currency symbols and rates
  */
-class PreferenceSource(private val pref: SharedPreferences) : ILocalDataSource {
+class PreferenceSource(private val pref: SharedPreferences) {
 
-    override fun getSymbolList(): SymbolsResponse? {
+     fun getSymbolList(): SymbolsResponse? {
         val cache = symbolsResponseFromCache()
         return if (isWithin30Mins() && cache != null) cache else null
     }
 
-    override fun getRatesList(baseCurrency: String): RatesResponse? {
+     fun getRatesList(baseCurrency: String): RatesResponse? {
         val cache = ratesResponseFromCache(baseCurrency)
         return if (isWithin30Mins() && cache != null) cache else null
     }
 
-    override fun saveSymbolList(symbols: List<SymbolsAttributes>) {
+     fun saveSymbolList(symbols: List<SymbolsAttributes>) {
         val currentTime = System.currentTimeMillis()
         val list = Gson().toJson(symbols)
         val edit = pref.edit()
@@ -36,7 +35,7 @@ class PreferenceSource(private val pref: SharedPreferences) : ILocalDataSource {
         appLog(list)
     }
 
-    override fun saveRateList(rates: List<RateAttributes>, baseCurrency: String) {
+     fun saveRateList(rates: List<RateAttributes>, baseCurrency: String) {
         val currentTime = System.currentTimeMillis()
         val list = Gson().toJson(rates)
         val edit = pref.edit()

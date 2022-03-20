@@ -2,12 +2,10 @@ package com.sky.conversion.ui
 
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import androidx.test.espresso.Espresso
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.sky.conversion.utils.LIST_VIEW
-import com.sky.conversion.utils.getCurrencyApp
-import org.junit.Assert
+import com.sky.conversion.core.LIST_VIEW
+import com.sky.conversion.core.utils.getCurrencyApp
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith

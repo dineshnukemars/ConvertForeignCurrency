@@ -1,4 +1,4 @@
-package com.sky.conversion.utils
+package com.sky.conversion.core.utils
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.sky.conversion.CurrencyApp
+import com.sky.conversion.core.APP_CACHE_PREFERENCE
 
 fun appLog(text: String) {
     Log.d("AppLog", text)

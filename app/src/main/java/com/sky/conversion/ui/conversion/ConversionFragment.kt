@@ -21,27 +21,36 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.sky.conversion.R
-import com.sky.conversion.datasources.local.PreferenceSource
-import com.sky.conversion.datasources.remote.RemoteService
-import com.sky.conversion.models.RatesSuccess
-import com.sky.conversion.models.RatesError
-import com.sky.conversion.models.RatesIdleState
-import com.sky.conversion.repos.RatesRepo
-import com.sky.conversion.ui.components.ContentView
-import com.sky.conversion.ui.components.RatesErrorAlertDialog
-import com.sky.conversion.ui.components.LatestRatesList
-import com.sky.conversion.utils.BASE_CURRENCY_SYMBOL
-import com.sky.conversion.utils.createVmFactory
-import com.sky.conversion.utils.getCurrencyApp
-import com.sky.conversion.utils.getPreferences
+import com.sky.conversion.core.BASE_CURRENCY_SYMBOL
+import com.sky.conversion.core.utils.createVmFactory
+import com.sky.conversion.core.utils.getCurrencyApp
+import com.sky.conversion.core.utils.getPreferences
+import com.sky.conversion.data.models.RatesError
+import com.sky.conversion.data.models.RatesIdleState
+import com.sky.conversion.data.models.RatesSuccess
+import com.sky.conversion.data.source.local.PreferenceSource
+import com.sky.conversion.data.source.remote.RemoteService
+import com.sky.conversion.ui.base.components.ContentView
+import com.sky.conversion.ui.base.components.LatestRatesList
+import com.sky.conversion.ui.base.components.RatesErrorAlertDialog
+import com.sky.conversion.usecase.CurrencyUseCase
 
 class ConversionFragment : Fragment() {
 
     private val viewModel: ConversionViewModel by viewModels {
+
         val currencyApp = context.getCurrencyApp() //throws exception
         val pref = context.getPreferences() //throws exception
-        val repo = RatesRepo(PreferenceSource(pref), RemoteService(), currencyApp.idlingRes)
-        createVmFactory(ConversionViewModel(repo))
+
+        createVmFactory(
+            ConversionViewModel(
+                CurrencyUseCase(
+                    pref = PreferenceSource(pref),
+                    remoteService = RemoteService(),
+                    idlingRes = currencyApp.idlingRes
+                )
+            )
+        )
     }
 
     override fun onCreateView(

@@ -2,15 +2,16 @@ package com.sky.conversion.ui.conversion
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sky.conversion.models.RatesIdleState
-import com.sky.conversion.models.RatesResponse
-import com.sky.conversion.repos.RatesRepo
+import com.sky.conversion.data.models.RatesIdleState
+import com.sky.conversion.data.models.RatesResponse
+import com.sky.conversion.data.source.getConvertedRates
+import com.sky.conversion.usecase.CurrencyUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 
-class ConversionViewModel(private val repo: RatesRepo) : ViewModel() {
+class ConversionViewModel(private val useCase: CurrencyUseCase) : ViewModel() {
 
     var baseCurrency: String = ""
 
@@ -24,7 +25,7 @@ class ConversionViewModel(private val repo: RatesRepo) : ViewModel() {
     fun requestLatestRates() {
         viewModelScope.launch {
             _uiState.emit(RatesIdleState())
-            _uiState.emit(repo.getLatestRates(baseCurrency))
+            _uiState.emit(useCase.getLatestRates(baseCurrency))
         }
     }
 
@@ -35,7 +36,7 @@ class ConversionViewModel(private val repo: RatesRepo) : ViewModel() {
     fun requestConvertedList(currencyAmount: String) {
         try {
             val amt = currencyAmount.toFloat()
-            _uiState.tryEmit(repo.getConvertedRates(amt))
+            _uiState.tryEmit(useCase.getConvertedRates(amt))
         } catch (e: Exception) {
             e.printStackTrace()
         }

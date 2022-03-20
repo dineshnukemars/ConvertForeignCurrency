@@ -1,4 +1,4 @@
-package com.sky.conversion.utils
+package com.sky.conversion.core
 
 const val BASE_URL ="http://data.fixer.io/api/";
 const val ACCESS_KEY ="1a80dc6df72d2485ad30d7b4ceb78cb5";

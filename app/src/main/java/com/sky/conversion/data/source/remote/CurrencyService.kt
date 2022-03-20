@@ -1,4 +1,4 @@
-package com.sky.conversion.datasources.remote
+package com.sky.conversion.data.source.remote
 
 import com.google.gson.JsonObject
 import retrofit2.Call

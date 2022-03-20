@@ -2,15 +2,16 @@ package com.sky.conversion.ui.symbols
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sky.conversion.models.SymbolsIdleState
-import com.sky.conversion.models.SymbolsResponse
-import com.sky.conversion.repos.SymbolsRepo
+import com.sky.conversion.data.models.SymbolsIdleState
+import com.sky.conversion.data.models.SymbolsResponse
+import com.sky.conversion.data.source.filterSymbols
+import com.sky.conversion.usecase.CurrencyUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 
-class SymbolsViewModel(private val repo: SymbolsRepo) : ViewModel() {
+class SymbolsViewModel(private val useCase: CurrencyUseCase) : ViewModel() {
 
     private val _uiState = MutableStateFlow<SymbolsResponse>(SymbolsIdleState())
     val uiState = _uiState.asStateFlow()
@@ -27,7 +28,7 @@ class SymbolsViewModel(private val repo: SymbolsRepo) : ViewModel() {
     fun requestCurrencyList() {
         viewModelScope.launch {
             _uiState.emit(SymbolsIdleState())
-            _uiState.emit(repo.getSymbolsResponse())
+            _uiState.emit(useCase.getSymbolsResponse())
         }
     }
 
@@ -43,6 +44,6 @@ class SymbolsViewModel(private val repo: SymbolsRepo) : ViewModel() {
      */
     fun filter(keyword: String) {
         filterKeyword = keyword
-        _uiState.tryEmit(repo.filter(keyword))
+        _uiState.tryEmit(useCase.filterSymbols(keyword))
     }
 }

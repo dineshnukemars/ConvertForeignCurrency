@@ -2,7 +2,7 @@ package com.sky.conversion
 
 import android.app.Application
 import androidx.test.espresso.idling.CountingIdlingResource
-import com.sky.conversion.utils.CONVERSION_APP
+import com.sky.conversion.core.CONVERSION_APP
 
 class CurrencyApp : Application() {
 
